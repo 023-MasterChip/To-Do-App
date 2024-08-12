@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, redirect, render_template, request
 from datetime import datetime
 import sqlite3
 
@@ -29,7 +29,7 @@ def create_table():
     
     conn.commit()
     conn.close()
-    return "created tasks table"
+    return "Table created sucessfully"
 
 
 @app.route('/tasks', methods=['POST', 'GET'])
@@ -46,6 +46,7 @@ def get_all_tasks():
         tasks_dict = [dict(zip(column_names, task)) for task in tasks]
         conn.close()
         return jsonify(tasks_dict)
+        # return render_template('home.html', tasks = tasks_dict)
     else:
         data = request.get_json()
 
