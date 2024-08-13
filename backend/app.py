@@ -47,9 +47,9 @@ def get_all_tasks():
         conn.close()
         return jsonify(tasks_dict)
         # return render_template('home.html', tasks = tasks_dict)
-    else:
+    elif request.method == 'POST':
         data = request.get_json()
-
+        print("data :",data)
         task = data.get('task')
         desc = data.get('description')
         date = datetime.now()
