@@ -6,6 +6,8 @@ import SnackBar from './SnackBar';
 const TaskList = () => {
     const [tasks, setTasks] = useState()
     const [snackbar, setSnackbar] = useState(false)
+    const [message, setMessage] = useState("")
+    const [snackType, setSnackType] = useState()
 
     const handleSnackbar = () => {
         setSnackbar(false)
@@ -17,6 +19,9 @@ const TaskList = () => {
                 method: 'PUT'
             });
             if (res.ok) {
+                setSnackType(1)
+                setMessage("Task updated successfully")
+                setSnackbar(true)
                 fetchTasks()
             }
         } catch (error) {
@@ -29,6 +34,8 @@ const TaskList = () => {
             const response = await fetch(`/tasks/${taskId}`, { method: 'DELETE', })
             if (response.ok) {
                 fetchTasks()
+                setSnackType(0)
+                setMessage("Task deleted successfully")
                 setSnackbar(true)
             }
         } catch (error) {
@@ -67,10 +74,10 @@ const TaskList = () => {
     return (
         <div className="m-auto my-10">
             <SnackBar
-                message='Task Deleted Successfully'
+                message={message}
                 onClose={handleSnackbar}
                 isVisible={snackbar}
-                textColor={'red'} />
+                textColor={snackType === 0 ? 'red' : 'green'} />
             <h1 className="text-3xl text-gray-300 font-bold text-center mb-5">Tasks</h1>
             <div className='w-3/5 m-auto my-2'>
                 <button className='p-2 rounded mx-2 font-medium bg-blue-500 text-white hover:text-blue-700 hover:bg-blue-200'
